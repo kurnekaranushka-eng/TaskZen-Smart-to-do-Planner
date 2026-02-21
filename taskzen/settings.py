@@ -67,7 +67,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'taskzen_db',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'Root@123',
         'HOST': 'localhost',
         'PORT': '3306',
     }

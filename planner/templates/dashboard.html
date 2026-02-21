@@ -1,16 +1,98 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>My Tasks</h2>
 
-<a href="{% url 'add_task' %}">Add Task</a>
+<div class="container mt-4">
 
-<ul>
-    {% for task in tasks %}
-        <li>{{ task.title }}</li>
-    {% empty %}
-        <li>No tasks yet.</li>
-    {% endfor %}
-</ul>
+    <h2 class="mb-3">My Tasks</h2>
+
+    <a href="{% url 'add_task' %}" class="btn btn-primary mb-3">+ Add Task</a>
+
+    <!-- 🔥 STATISTICS SECTION -->
+    <div class="row text-center mb-4">
+        <div class="col">
+            <h6>Total</h6>
+            <h4>{{ total_tasks }}</h4>
+        </div>
+        <div class="col">
+            <h6>Completed</h6>
+            <h4 class="text-success">{{ completed_tasks }}</h4>
+        </div>
+        <div class="col">
+            <h6>Pending</h6>
+            <h4 class="text-warning">{{ pending_tasks }}</h4>
+        </div>
+        <div class="col">
+            <h6>Overdue</h6>
+            <h4 class="text-danger">{{ overdue_tasks }}</h4>
+        </div>
+        <div class="col">
+            <h6>Productivity</h6>
+            <h4>{{ productivity }}%</h4>
+        </div>
+    </div>
+
+    <!-- 🔥 TASK LIST -->
+    <ul class="list-group">
+        {% for task in tasks %}
+            <li class="list-group-item 
+                {% if task.is_overdue %}list-group-item-danger{% endif %}">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <strong>{{ task.title }}</strong><br>
+
+                        <!-- Category -->
+                        <small>Category: {{ task.category }}</small><br>
+
+                        <!-- Priority Colors -->
+                        {% if task.priority == 'High' %}
+                            <span class="badge bg-danger">High</span>
+                        {% elif task.priority == 'Medium' %}
+                            <span class="badge bg-warning text-dark">Medium</span>
+                        {% else %}
+                            <span class="badge bg-success">Low</span>
+                        {% endif %}
+
+                        <!-- Status -->
+                        {% if task.status == 'Completed' %}
+                            <span class="badge bg-success">Completed</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Pending</span>
+                        {% endif %}
+
+                        <!-- Deadline -->
+                        <br>
+                        <small>Deadline: {{ task.deadline }}</small>
+
+                        {% if task.is_overdue %}
+                            <span class="badge bg-danger">Overdue</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div>
+                        <a href="{% url 'update_task' task.pk %}" 
+                           class="btn btn-sm btn-info">Edit</a>
+
+                        {% if task.status != 'Completed' %}
+                        <a href="{% url 'complete_task' task.pk %}" 
+                           class="btn btn-sm btn-success">Complete</a>
+                        {% endif %}
+
+                        <a href="{% url 'delete_task' task.pk %}" 
+                           class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+
+                </div>
+            </li>
+
+        {% empty %}
+            <li class="list-group-item">No tasks yet.</li>
+        {% endfor %}
+    </ul>
+
+</div>
 
 {% endblock %}

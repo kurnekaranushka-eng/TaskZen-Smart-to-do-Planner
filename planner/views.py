@@ -34,8 +34,34 @@ def dashboard(request):
 
 @login_required
 def task_list(request):
-    tasks = Task.objects.filter(user=request.user).order_by('deadline')
-    return render(request, 'dashboard.html', {'tasks': tasks})
+
+    category = request.GET.get('category')
+
+    tasks = Task.objects.filter(user=request.user)
+
+    if category:
+        tasks = tasks.filter(category=category)
+
+    # 🔥 ADD STATISTICS HERE
+    total_tasks = tasks.count()
+    completed_tasks = tasks.filter(status='Completed').count()
+    pending_tasks = tasks.filter(status='Pending').count()
+    overdue_tasks = [t for t in tasks if t.is_overdue]
+
+    # Optional: Productivity %
+    if total_tasks > 0:
+        productivity = (completed_tasks / total_tasks) * 100
+    else:
+        productivity = 0
+
+    return render(request, 'dashboard.html', {
+        'tasks': tasks,
+        'total_tasks': total_tasks,
+        'completed_tasks': completed_tasks,
+        'pending_tasks': pending_tasks,
+        'overdue_tasks': len(overdue_tasks),
+        'productivity': round(productivity, 2),
+    })
 
 @login_required
 def add_task(request):
