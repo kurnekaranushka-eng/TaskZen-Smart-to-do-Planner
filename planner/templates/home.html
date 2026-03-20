@@ -1,19 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Welcome to TaskZen</h1>
+<div class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="text-center w-100">
 
-{% if user.is_authenticated %}
-    <p>Hello {{ user.username }}</p>
+        <h1 class="mb-4">Welcome to TaskZen</h1>
+        <p class="text-muted fs-5 mb-4">
+            Bring clarity to your chaos.
+        </p>
 
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
+        {% if user.is_authenticated %}
 
-{% else %}
-    <a href="{% url 'register' %}">Register</a> |
-    <a href="{% url 'login' %}">Login</a>
-{% endif %}
+        <p class="fs-5">Hello {{ user.username }} 👋</p>
 
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger mt-2">
+                Logout
+            </button>
+        </form>
+
+        {% else %}
+
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card p-4 text-start">
+                    <h4 class="text-center mb-3">Login</h4>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+
+                        <button type="submit" class="btn btn-primary w-100 mt-3">
+                            Login
+                        </button>
+                    </form>
+
+                    <p class="text-center mt-3">
+                        Don’t have an account?
+                        <a href="{% url 'register' %}">Register</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+
+    </div>
+</div>
 {% endblock %}

@@ -1,10 +1,57 @@
-<h2>Register</h2>
+{% extends 'base.html' %}
+{% block content %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-5">
+        <div class="card shadow p-4">
+            <h3 class="text-center mb-4">Create Account</h3>
 
-<a href="{% url 'login' %}">Already have an account? Login</a>
+            <form method="post">
+                {% csrf_token %}
 
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    {{ form.username }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Password
+                        <span onclick="toggleRules()" style="cursor:pointer; color:blue;">ℹ️</span>
+                    </label>
+                    {{ form.password1 }}
+                </div>
+
+                <div id="password-rules" class="mb-3" style="display:none; font-size:14px; color:gray;">
+                    <ul class="mb-0">
+                        <li>Minimum 8 characters</li>
+                        <li>Cannot be too similar to personal info</li>
+                        <li>Cannot be a common password</li>
+                        <li>Cannot be entirely numeric</li>
+                    </ul>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    {{ form.password2 }}
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-2">
+                    Register
+                </button>
+            </form>
+
+            <p class="text-center mt-3 mb-0">
+                Already have an account?
+                <a href="{% url 'login' %}">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

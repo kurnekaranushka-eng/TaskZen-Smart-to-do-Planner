@@ -1,9 +1,37 @@
-<h2>Login</h2>
+{% extends 'base.html' %}
+{% block content %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-md-4">
+            <div class="card shadow p-4">
+                <h3 class="text-center mb-4">Login to TaskZen</h3>
 
-<a href="{% url 'register' %}">Don't have an account? Register</a>
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        {{ form.username }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        {{ form.password }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        Login
+                    </button>
+                </form>
+
+                <p class="text-center mt-3 mb-0">
+                    Don’t have an account?
+                    <a href="{% url 'register' %}">Register</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
