@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<<<<<<< HEAD
-<div class="container mt-4">
-    <div class="card shadow p-4">
-
-        <h3 class="mb-4 text-center">Add New Task</h3>
-
-        <form method="post">
-=======
 <div class="container d-flex justify-content-center align-items-center add-task-wrapper">
 
     <div class="add-task-card">
@@ -17,7 +9,6 @@
         </h3>
 
         <form method="POST">
->>>>>>> a5c2a1c (Updated project files)
             {% csrf_token %}
 
             <div class="mb-3">
@@ -40,24 +31,12 @@
                 {{ form.category }}
             </div>
 
-<<<<<<< HEAD
-            <div class="mb-3">
-=======
             <div class="mb-4">
->>>>>>> a5c2a1c (Updated project files)
                 <label class="form-label">Deadline</label>
                 {{ form.deadline }}
             </div>
 
             <div class="d-flex justify-content-between">
-<<<<<<< HEAD
-                <a href="{% url 'task_list' %}" class="btn btn-secondary">Back</a>
-                <button type="submit" class="btn btn-primary">Save Task</button>
-            </div>
-        </form>
-
-    </div>
-=======
                 <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
                     ⬅ Back
                 </a>
@@ -69,7 +48,6 @@
         </form>
     </div>
 
->>>>>>> a5c2a1c (Updated project files)
 </div>
 
 {% endblock %}

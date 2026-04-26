@@ -6,18 +6,19 @@ from .models import Task
 from django.contrib import messages
 from datetime import date, timedelta
 from django.utils import timezone
-from django.contrib.auth.forms import AuthenticationForm
+from .forms import LoginForm
 from django.contrib.auth import login
-from .forms import RegisterForm, TaskForm, LoginForm
+
 # Home
 def home(request):
     if request.user.is_authenticated:
-       return redirect('dashboard')
+        return redirect('dashboard')
+
     if request.method == 'POST':
         form = LoginForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('dashboard')  # change if needed
+            return redirect('dashboard')
     else:
         form = LoginForm()
 
@@ -41,12 +42,12 @@ def register(request):
 # Login / Logout
 class CustomLoginView(LoginView):
     template_name = 'login.html'
-    authentication_form = LoginForm
+    authentication_form = LoginForm   # ✅ ADD THIS
+
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect('dashboard')
         return super().dispatch(request, *args, **kwargs)
-    
 
 
 class CustomLogoutView(LogoutView):
@@ -57,14 +58,6 @@ class CustomLogoutView(LogoutView):
 @login_required
 def dashboard(request):
 
-<<<<<<< HEAD
-@login_required
-def task_list(request):
-
-    category = request.GET.get('category')
-
-    tasks = Task.objects.filter(user=request.user)
-=======
     tasks = Task.objects.filter(
         user=request.user,
         is_deleted=False
@@ -78,33 +71,10 @@ def task_list(request):
     status = request.GET.get('status')
     priority = request.GET.get('priority')
     date_filter = request.GET.get('date')
->>>>>>> a5c2a1c (Updated project files)
 
     if category:
         tasks = tasks.filter(category=category)
 
-<<<<<<< HEAD
-    # 🔥 ADD STATISTICS HERE
-    total_tasks = tasks.count()
-    completed_tasks = tasks.filter(status='Completed').count()
-    pending_tasks = tasks.filter(status='Pending').count()
-    overdue_tasks = [t for t in tasks if t.is_overdue]
-
-    # Optional: Productivity %
-    if total_tasks > 0:
-        productivity = (completed_tasks / total_tasks) * 100
-    else:
-        productivity = 0
-
-    return render(request, 'dashboard.html', {
-        'tasks': tasks,
-        'total_tasks': total_tasks,
-        'completed_tasks': completed_tasks,
-        'pending_tasks': pending_tasks,
-        'overdue_tasks': len(overdue_tasks),
-        'productivity': round(productivity, 2),
-    })
-=======
     if status:
         if status == 'Overdue':
             tasks = [t for t in tasks if t.is_overdue]
@@ -217,7 +187,6 @@ def task_list(request):
     }
 
     return render(request, 'dashboard.html', context)
->>>>>>> a5c2a1c (Updated project files)
 
 @login_required
 def add_task(request):

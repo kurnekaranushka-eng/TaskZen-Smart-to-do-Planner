@@ -1,34 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+<div class="row justify-content-center">
     <div class="col-md-5">
-        <div class="card shadow p-4">
+        <div class="card p-4">
             <h3 class="text-center mb-4">Create Account</h3>
 
             <form method="post">
                 {% csrf_token %}
 
-                <div class="mb-3">
-                    <label class="form-label">Username</label>
+                <p>
+                    <label>Username</label>
                     {{ form.username }}
-                </div>
+                </p>
 
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
+                <p>
+                    <label>Email</label>
                     {{ form.email }}
-                </div>
+                </p>
 
-                <div class="mb-3">
-                    <label class="form-label">
+                <p>
+                    <label>
                         Password
                         <span onclick="toggleRules()" style="cursor:pointer; color:blue;">ℹ️</span>
                     </label>
                     {{ form.password1 }}
-                </div>
+                </p>
 
-                <div id="password-rules" class="mb-3" style="display:none; font-size:14px; color:gray;">
-                    <ul class="mb-0">
+                <!-- Hidden password rules -->
+                <div id="password-rules" style="display:none; font-size:14px; color:gray;">
+                    <ul>
                         <li>Minimum 8 characters</li>
                         <li>Cannot be too similar to personal info</li>
                         <li>Cannot be a common password</li>
@@ -36,17 +37,17 @@
                     </ul>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Confirm Password</label>
+                <p>
+                    <label>Confirm Password</label>
                     {{ form.password2 }}
-                </div>
+                </p>
 
-                <button type="submit" class="btn btn-primary w-100 mt-2">
+                <button type="submit" class="btn btn-primary w-100 mt-3">
                     Register
                 </button>
             </form>
 
-            <p class="text-center mt-3 mb-0">
+            <p class="text-center mt-3">
                 Already have an account?
                 <a href="{% url 'login' %}">Login</a>
             </p>
